@@ -34,7 +34,7 @@ EXPOSE 50000
 #ENV JAVA_OPTS=-Dhudson.footerURL=http://mycompany.com
 
 #Set JAVA environment (logging)
-ENV JAVA_OPTS="-Djava.util.logging.config.file=/usr/share/jenkins/log.properties"
+ENV JAVA_OPTS="-Djava.util.logging.config.file=/usr/share/jenkins/log.properties -Djenkins.install.runSetupWizard=false"
 
 #TODO: variuos sca requirements
 #Install additional software
