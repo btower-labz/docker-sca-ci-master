@@ -10,10 +10,7 @@ USER jenkins
 
 #Configure executors
 COPY executors.groovy /usr/share/jenkins/ref/init.groovy.d/executors.groovy
-
-# Configure plugins
-#COPY plugins.txt /usr/share/jenkins/plugins.txt
-#RUN /usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt
+COPY basic-security.groovy /usr/share/jenkins/ref/init.groovy.d/basic-security.groovy
 
 # Locale fix
 RUN /usr/local/bin/install-plugins.sh locale:1.2
@@ -26,7 +23,7 @@ RUN /usr/local/bin/install-plugins.sh checkstyle:3.48
 RUN /usr/local/bin/install-plugins.sh cloverphp:0.5
 RUN /usr/local/bin/install-plugins.sh crap4j:0.9
 RUN /usr/local/bin/install-plugins.sh dry:2.47
-RUN /usr/local/bin/install-plugins.sh htmlpublisher:1.13
+RUN /usr/local/bin/install-plugins.sh htmlpublisher:1.14
 RUN /usr/local/bin/install-plugins.sh jdepend:1.2.4
 RUN /usr/local/bin/install-plugins.sh plot:1.11
 RUN /usr/local/bin/install-plugins.sh pmd:3.48
