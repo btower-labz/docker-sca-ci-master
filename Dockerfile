@@ -10,10 +10,14 @@ USER jenkins
 
 #Configure executors
 COPY executors.groovy /usr/share/jenkins/ref/init.groovy.d/executors.groovy
-COPY basic-security.groovy /usr/share/jenkins/ref/init.groovy.d/basic-security.groovy
+COPY sca-admin.groovy /usr/share/jenkins/ref/init.groovy.d/sca-admin.groovy
+COPY sca-view.groovy /usr/share/jenkins/ref/init.groovy.d/sca-view.groovy
 
 # Locale fix
 RUN /usr/local/bin/install-plugins.sh locale:1.2
+
+# Swarm slaves
+RUN /usr/local/bin/install-plugins.sh swarm:3.4
 
 # Workflow
 RUN /usr/local/bin/install-plugins.sh workflow-aggregator:2.5
