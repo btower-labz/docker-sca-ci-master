@@ -37,6 +37,7 @@ RUN /usr/local/bin/install-plugins.sh xunit:1.102
 RUN /usr/local/bin/install-plugins.sh git:3.3.2
 RUN /usr/local/bin/install-plugins.sh ant:1.5
 RUN /usr/local/bin/install-plugins.sh antexec:1.11
+RUN /usr/local/bin/install-plugins.sh copy-to-slave:1.44
 
 #Configure logging
 COPY log.properties /usr/share/jenkins/log.properties
