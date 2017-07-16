@@ -35,6 +35,7 @@ RUN /usr/local/bin/install-plugins.sh violations:0.7.11
 RUN /usr/local/bin/install-plugins.sh warnings:4.62
 RUN /usr/local/bin/install-plugins.sh xunit:1.102
 RUN /usr/local/bin/install-plugins.sh git:3.3.2
+RUN /usr/local/bin/install-plugins.sh ant:1.5
 
 #Configure logging
 COPY log.properties /usr/share/jenkins/log.properties
