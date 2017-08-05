@@ -39,6 +39,9 @@ RUN /usr/local/bin/install-plugins.sh ant:1.5
 RUN /usr/local/bin/install-plugins.sh antexec:1.11
 # RUN /usr/local/bin/install-plugins.sh copy-to-slave:1.44
 RUN /usr/local/bin/install-plugins.sh ssh-agent:1.15
+RUN /usr/local/bin/install-plugins.sh tasks:4.51
+RUN /usr/local/bin/install-plugins.sh dependency-check-jenkins-plugin:2.0.1.2
+RUN /usr/local/bin/install-plugins.sh clover:4.8.0
 
 #Configure logging
 COPY log.properties /usr/share/jenkins/log.properties
