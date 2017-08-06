@@ -1,11 +1,25 @@
-# CI master image for SCA projects
+# Jenkins CI master image for SCA project.
+# TODO: check https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices
+# TODO: force en language
+
 FROM jenkins:latest
 MAINTAINER BTower labz@btower.net
 
-LABEL version="1.0"
-LABEL description="Jenkins main for SCA project"
+LABEL Name="docker-sca-ci-master"
+LABEL Vendor="btower-labz"
+LABEL Version="1.0.0"
+LABEL Description="Provides sca ci master"
 
-#Set user jenkins
+USER root
+
+#Install additional software
+RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
+RUN apt-get update && apt-get install -y apt-utils && rm -rf /var/lib/apt/lists/*
+RUN echo 'debconf debconf/frontend select Dialog' | debconf-set-selections
+
+COPY getplugins.sh /tmp/getplugins.sh
+RUN chmod ugo+x /tmp/getplugins.sh
+
 USER jenkins
 
 #Configure executors
@@ -13,35 +27,8 @@ COPY executors.groovy /usr/share/jenkins/ref/init.groovy.d/executors.groovy
 COPY sca-admin.groovy /usr/share/jenkins/ref/init.groovy.d/sca-admin.groovy
 COPY sca-view.groovy /usr/share/jenkins/ref/init.groovy.d/sca-view.groovy
 
-# Locale fix
-RUN /usr/local/bin/install-plugins.sh locale:1.2
-
-# Swarm slaves
-RUN /usr/local/bin/install-plugins.sh swarm:3.4
-
-# Workflow
-RUN /usr/local/bin/install-plugins.sh workflow-aggregator:2.5
-
-#PHP TOOLS ANALYSERS
-RUN /usr/local/bin/install-plugins.sh checkstyle:3.48
-RUN /usr/local/bin/install-plugins.sh cloverphp:0.5
-RUN /usr/local/bin/install-plugins.sh crap4j:0.9
-RUN /usr/local/bin/install-plugins.sh dry:2.47
-RUN /usr/local/bin/install-plugins.sh htmlpublisher:1.14
-RUN /usr/local/bin/install-plugins.sh jdepend:1.2.4
-RUN /usr/local/bin/install-plugins.sh plot:1.11
-RUN /usr/local/bin/install-plugins.sh pmd:3.48
-RUN /usr/local/bin/install-plugins.sh violations:0.7.11
-RUN /usr/local/bin/install-plugins.sh warnings:4.62
-RUN /usr/local/bin/install-plugins.sh xunit:1.102
-RUN /usr/local/bin/install-plugins.sh git:3.3.2
-RUN /usr/local/bin/install-plugins.sh ant:1.5
-RUN /usr/local/bin/install-plugins.sh antexec:1.11
-# RUN /usr/local/bin/install-plugins.sh copy-to-slave:1.44
-RUN /usr/local/bin/install-plugins.sh ssh-agent:1.15
-RUN /usr/local/bin/install-plugins.sh tasks:4.51
-RUN /usr/local/bin/install-plugins.sh dependency-check-jenkins-plugin:2.0.1.2
-RUN /usr/local/bin/install-plugins.sh clover:4.8.0
+# Install plugins
+RUN /tmp/getplugins.sh
 
 #Configure logging
 COPY log.properties /usr/share/jenkins/log.properties
@@ -51,11 +38,10 @@ COPY log.properties /usr/share/jenkins/log.properties
 #COPY https.key /var/lib/jenkins/pk
 #ENV JENKINS_OPTS --httpPort=-1 --httpsPort=8083 --httpsCertificate=/var/lib/jenkins/cert --httpsPrivateKey=/var/lib/jenkins/pk
 
-#Expose GUI port
+#Expose web port
 EXPOSE 8080
 
-#Expose slave port
-#ENV JENKINS_SLAVE_AGENT_PORT 50000
+#Expose api port
 EXPOSE 50000
 
 #TODO: remove samples, setup footer
