@@ -11,8 +11,8 @@ def users = hudsonRealm.getAllUsers()
 users_s = users.collect { it.toString() }
 
 // Create the admin user account if it doesn't already exist.
-if (SCA_ADMIN_USR in users_s) {
-    println "Admin user already exists - updating password"
+if (SCA_VIEW_USR in users_s) {
+    println "View user already exists - updating password"
 
     def user = hudson.model.User.get(SCA_VIEW_USR);
     def password = hudson.security.HudsonPrivateSecurityRealm.Details.fromPlainPassword(SCA_VIEW_PWD)
